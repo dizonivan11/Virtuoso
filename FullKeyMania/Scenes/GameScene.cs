@@ -7,6 +7,7 @@ using System.IO;
 
 namespace FullKeyMania.Scenes {
     public class GameScene : Scene {
+        MainScene main;
         Conductor conductor;
         int currentHitTime;
 
@@ -19,6 +20,7 @@ namespace FullKeyMania.Scenes {
         int[] layerKeyCounts = new int[] { 12, 11, 10 };
 
         public GameScene(MainScene main) {
+            this.main = main;
             idleColor = Color.FromNonPremultiplied(255, 255, 255, (int)(main.Setting.NoteOpacity * 255d));
             pressedColor = Color.White;
 
@@ -34,6 +36,11 @@ namespace FullKeyMania.Scenes {
             Beatmap division = new Beatmap(@"C:\Users\dizon\source\repos\FullKeyMania\FullKeyMania\bin\Debug\Songs\Black Lotus Audio - Division\");
             conductor = new Conductor(division);
             background = Graphics.GetTexture2DFromFile(main.GraphicsDevice, conductor.Beatmap.DIR + "background.jpg");
+            conductor.OutputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
+        }
+
+        private void OutputDevice_PlaybackStopped(object sender, NAudio.Wave.StoppedEventArgs e) {
+            main.ChangeScene(new HomeScene(main));
         }
 
         internal override void Update(
@@ -108,6 +115,10 @@ namespace FullKeyMania.Scenes {
                 }
             }
             conductor.Update(gameTime);
+
+            if (Input.KeyPressed(previousKeyState, currentKeyState, Keys.Escape)) {
+                conductor.OutputDevice.Stop();
+            }
         }
 
         internal override void Draw(MainScene main) {
@@ -195,7 +206,9 @@ namespace FullKeyMania.Scenes {
             y += (int)main.Editor.FontHeight + 5;
             main.Editor.spriteBatch.DrawString(main.Editor.Font, "AR: " + conductor.Beatmap.AR.ToString(), new Vector2(x, y), Color.White);
             y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Offset: " + conductor.Beatmap.Offset.ToString(), new Vector2(x, y), Color.White);
+            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Global Offset: " + main.Setting.GlobalOffset.ToString(), new Vector2(x, y), Color.White);
+            y += (int)main.Editor.FontHeight + 5;
+            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Beatmap Offset: " + conductor.Beatmap.Offset.ToString(), new Vector2(x, y), Color.White);
             y += (int)main.Editor.FontHeight + 5;
             main.Editor.spriteBatch.DrawString(main.Editor.Font, "Hit Time: " + currentHitTime + "ms", new Vector2(x, y), Color.White);
             y += (int)main.Editor.FontHeight + 5;
