@@ -37,14 +37,14 @@
             this.sampleControl.TabIndex = 0;
             this.sampleControl.Text = "Sample Control";
             // 
-            // Form1
+            // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 720);
             this.Controls.Add(this.sampleControl);
             this.Name = "GameForm";
-            this.Text = "FullKeyMania";
+            this.Text = "Virtuoso";
             this.ResumeLayout(false);
 
         }
