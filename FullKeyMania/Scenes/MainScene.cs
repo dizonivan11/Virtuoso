@@ -13,6 +13,8 @@ namespace FullKeyMania.Scenes {
         public Scene Scene { get; private set; }
 
         protected override void Initialize() {
+            base.Initialize();
+
             Setting = new Settings(@"settings.ini");
             Scene = new HomeScene(this);
         }
@@ -22,6 +24,8 @@ namespace FullKeyMania.Scenes {
         }
 
         protected override void Update(GameTime gameTime) {
+            base.Update(gameTime);
+
             // Store Current Input States
             cks = Keyboard.GetState();
             cms = Mouse.GetState();
@@ -35,6 +39,8 @@ namespace FullKeyMania.Scenes {
         }
 
         protected override void Draw() {
+            base.Draw();
+
             Editor.spriteBatch.GraphicsDevice.Clear(Color.DarkSlateBlue);
             Editor.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, null);
 
