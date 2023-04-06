@@ -110,6 +110,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Scenes\Scene.cs" />
+    <Compile Include="Scenes\SelectScene.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
