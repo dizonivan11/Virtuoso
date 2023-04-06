@@ -9,13 +9,13 @@ namespace FullKeyMania.Scenes {
         KeyboardState pks, cks;
         MouseState pms, cms;
 
-        public Settings Setting { get; private set; }
+        public Settings Settings { get; private set; }
         public Scene Scene { get; private set; }
 
         protected override void Initialize() {
             base.Initialize();
 
-            Setting = new Settings(@"settings.ini");
+            Settings = new Settings(@"settings.ini");
             Scene = new HomeScene(this);
         }
 

@@ -19,17 +19,17 @@ namespace FullKeyMania.Scenes {
         int[] layerKeyCounts = new int[] { 12, 11, 10 };
 
         public GameScene(MainScene main) : base(main) {
-            idleColor = Color.FromNonPremultiplied(255, 255, 255, (int)(main.Setting.NoteOpacity * 255d));
+            idleColor = Color.FromNonPremultiplied(255, 255, 255, (int)(main.Settings.NoteOpacity * 255d));
             pressedColor = Color.White;
 
             for (int k = 0; k < keyGraphics.Length; k++) {
-                using (FileStream fs = new FileStream(@"Skins\" + main.Setting.SelectedSkin + @"\note-" + k + ".png", FileMode.Open, FileAccess.Read)) {
+                using (FileStream fs = new FileStream(@"Skins\" + main.Settings.SelectedSkin + @"\note-" + k + ".png", FileMode.Open, FileAccess.Read)) {
                     keyGraphicColors[k] = idleColor;
                     keyGraphics[k] = Texture2D.FromStream(main.GraphicsDevice, fs);
                     fs.Close();
                 }
             }
-            approachCircle = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Setting.SelectedSkin + @"\approach.png");
+            approachCircle = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\approach.png");
 
             Beatmap division = new Beatmap(@"Songs\Black Lotus Audio - Division\");
             conductor = new Conductor(division);
@@ -58,7 +58,7 @@ namespace FullKeyMania.Scenes {
                         if (conductor.KeyTimingLayer[currentKeyIndex].Count > 0) {
                             double nextKeyTime = conductor.KeyTimingLayer[currentKeyIndex][0];
                             double endOpacityTime = nextKeyTime + arInSec;
-                            double hitTime = Math.Abs(Math.Abs(nextKeyTime - conductor.SongPosition) + (MainScene.Setting.GlobalOffset / 1000d));
+                            double hitTime = Math.Abs(Math.Abs(nextKeyTime - conductor.SongPosition) + (MainScene.Settings.GlobalOffset / 1000d));
 
                             Keys bind = Conductor.BINDS[currentKeyIndex];
                             if (hitTime < Conductor.HW_MISS && Input.JustKeyPressed(previousKeyState, currentKeyState, bind)) {
@@ -123,7 +123,7 @@ namespace FullKeyMania.Scenes {
             MainScene.Editor.spriteBatch.Draw(background,
                 new Vector2(MainScene.Editor.graphics.Viewport.Width / 2, MainScene.Editor.graphics.Viewport.Height / 2),
                 new Rectangle(0, 0, background.Width, background.Height),
-                Color.FromNonPremultiplied(255, 255, 255, (int)(MainScene.Setting.BackgroundOpacity * 255d)),
+                Color.FromNonPremultiplied(255, 255, 255, (int)(MainScene.Settings.BackgroundOpacity * 255d)),
                 0f, new Vector2(background.Width / 2, background.Height / 2), 1f, SpriteEffects.None, 0f);
 
             // NOTE SECTION
@@ -203,7 +203,7 @@ namespace FullKeyMania.Scenes {
             y += (int)MainScene.Editor.FontHeight + 5;
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "AR: " + conductor.Beatmap.AR.ToString(), new Vector2(x, y), Color.White);
             y += (int)MainScene.Editor.FontHeight + 5;
-            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Global Offset: " + MainScene.Setting.GlobalOffset.ToString(), new Vector2(x, y), Color.White);
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Global Offset: " + MainScene.Settings.GlobalOffset.ToString(), new Vector2(x, y), Color.White);
             y += (int)MainScene.Editor.FontHeight + 5;
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Beatmap Offset: " + conductor.Beatmap.Offset.ToString(), new Vector2(x, y), Color.White);
             y += (int)MainScene.Editor.FontHeight + 5;

@@ -12,11 +12,11 @@ namespace FullKeyMania.Scenes {
         Texture2D home_quit;
 
         public HomeScene(MainScene main) : base(main) {
-            background = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Setting.SelectedSkin + @"\home_background.jpg");
-            logo = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Setting.SelectedSkin + @"\game_logo.png");
-            home_solo_play = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Setting.SelectedSkin + @"\home_solo_play.png");
-            home_multi_play = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Setting.SelectedSkin + @"\home_multi_play.png");
-            home_quit = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Setting.SelectedSkin + @"\home_quit.png");
+            background = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\home_background.jpg");
+            logo = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\game_logo.png");
+            home_solo_play = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\home_solo_play.png");
+            home_multi_play = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\home_multi_play.png");
+            home_quit = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\home_quit.png");
         }
 
         internal override void Update(
