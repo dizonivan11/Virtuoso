@@ -7,7 +7,6 @@ using System.IO;
 
 namespace FullKeyMania.Scenes {
     public class GameScene : Scene {
-        MainScene main;
         Conductor conductor;
         int currentHitTime;
 
@@ -19,8 +18,7 @@ namespace FullKeyMania.Scenes {
         int keyPadding = 12;
         int[] layerKeyCounts = new int[] { 12, 11, 10 };
 
-        public GameScene(MainScene main) {
-            this.main = main;
+        public GameScene(MainScene main) : base(main) {
             idleColor = Color.FromNonPremultiplied(255, 255, 255, (int)(main.Setting.NoteOpacity * 255d));
             pressedColor = Color.White;
 
@@ -33,18 +31,17 @@ namespace FullKeyMania.Scenes {
             }
             approachCircle = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Setting.SelectedSkin + @"\approach.png");
 
-            Beatmap division = new Beatmap(@"C:\Users\dizon\source\repos\FullKeyMania\FullKeyMania\bin\Debug\Songs\Black Lotus Audio - Division\");
+            Beatmap division = new Beatmap(@"Songs\Black Lotus Audio - Division\");
             conductor = new Conductor(division);
             background = Graphics.GetTexture2DFromFile(main.GraphicsDevice, conductor.Beatmap.DIR + "background.jpg");
             conductor.OutputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
         }
 
         private void OutputDevice_PlaybackStopped(object sender, NAudio.Wave.StoppedEventArgs e) {
-            main.ChangeScene(new HomeScene(main));
+            MainScene.ChangeScene(new HomeScene(MainScene));
         }
 
         internal override void Update(
-            MainScene main,
             GameTime gameTime,
             KeyboardState previousKeyState,
             KeyboardState currentKeyState,
@@ -61,7 +58,7 @@ namespace FullKeyMania.Scenes {
                         if (conductor.KeyTimingLayer[currentKeyIndex].Count > 0) {
                             double nextKeyTime = conductor.KeyTimingLayer[currentKeyIndex][0];
                             double endOpacityTime = nextKeyTime + arInSec;
-                            double hitTime = Math.Abs(Math.Abs(nextKeyTime - conductor.SongPosition) + (main.Setting.GlobalOffset / 1000d));
+                            double hitTime = Math.Abs(Math.Abs(nextKeyTime - conductor.SongPosition) + (MainScene.Setting.GlobalOffset / 1000d));
 
                             Keys bind = Conductor.BINDS[currentKeyIndex];
                             if (hitTime < Conductor.HW_MISS && Input.JustKeyPressed(previousKeyState, currentKeyState, bind)) {
@@ -121,12 +118,12 @@ namespace FullKeyMania.Scenes {
             }
         }
 
-        internal override void Draw(MainScene main) {
+        internal override void Draw() {
             // BACKGROUND SECTION
-            main.Editor.spriteBatch.Draw(background,
-                new Vector2(main.Editor.graphics.Viewport.Width / 2, main.Editor.graphics.Viewport.Height / 2),
+            MainScene.Editor.spriteBatch.Draw(background,
+                new Vector2(MainScene.Editor.graphics.Viewport.Width / 2, MainScene.Editor.graphics.Viewport.Height / 2),
                 new Rectangle(0, 0, background.Width, background.Height),
-                Color.FromNonPremultiplied(255, 255, 255, (int)(main.Setting.BackgroundOpacity * 255d)),
+                Color.FromNonPremultiplied(255, 255, 255, (int)(MainScene.Setting.BackgroundOpacity * 255d)),
                 0f, new Vector2(background.Width / 2, background.Height / 2), 1f, SpriteEffects.None, 0f);
 
             // NOTE SECTION
@@ -140,7 +137,7 @@ namespace FullKeyMania.Scenes {
 
                 for (int k = 0; k < keyCount; k++) {
                     if (currentKeyIndex < keyGraphics.Length) {
-                        main.Editor.spriteBatch.Draw(keyGraphics[currentKeyIndex], new Vector2(x, y), keyGraphicColors[currentKeyIndex]);
+                        MainScene.Editor.spriteBatch.Draw(keyGraphics[currentKeyIndex], new Vector2(x, y), keyGraphicColors[currentKeyIndex]);
 
                         // If there's still notes left on this key layer
                         if (conductor.KeyTimingLayer[currentKeyIndex].Count > 0) {
@@ -171,9 +168,9 @@ namespace FullKeyMania.Scenes {
                                 approachStateColor = Color.Transparent;
                             }
 
-                            main.Editor.spriteBatch.Draw(keyGraphics[currentKeyIndex], new Vector2(x, y), noteStateColor);
+                            MainScene.Editor.spriteBatch.Draw(keyGraphics[currentKeyIndex], new Vector2(x, y), noteStateColor);
 
-                            main.Editor.spriteBatch.Draw(
+                            MainScene.Editor.spriteBatch.Draw(
                                 approachCircle,
                                 new Vector2(x + 32, y + 32),
                                 new Rectangle(0, 0, 256, 256),
@@ -198,21 +195,21 @@ namespace FullKeyMania.Scenes {
             // y += (int)main.Editor.FontHeight + 5;
             // Editor.spriteBatch.DrawString(Editor.Font, "Time Started: " + conductor.TimeStarted.ToString(), new Vector2(x, y), Color.White);
             // y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Song Position:" + conductor.SongPosition.ToString(), new Vector2(x, y), Color.White);
-            y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Current Beat:" + conductor.CurrentBeat.ToString(), new Vector2(x, y), Color.White);
-            y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "BPM: " + conductor.Beatmap.BPM.ToString(), new Vector2(x, y), Color.White);
-            y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "AR: " + conductor.Beatmap.AR.ToString(), new Vector2(x, y), Color.White);
-            y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Global Offset: " + main.Setting.GlobalOffset.ToString(), new Vector2(x, y), Color.White);
-            y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Beatmap Offset: " + conductor.Beatmap.Offset.ToString(), new Vector2(x, y), Color.White);
-            y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font, "Hit Time: " + currentHitTime + "ms", new Vector2(x, y), Color.White);
-            y += (int)main.Editor.FontHeight + 5;
-            main.Editor.spriteBatch.DrawString(main.Editor.Font,
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Song Position:" + conductor.SongPosition.ToString(), new Vector2(x, y), Color.White);
+            y += (int)MainScene.Editor.FontHeight + 5;
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Current Beat:" + conductor.CurrentBeat.ToString(), new Vector2(x, y), Color.White);
+            y += (int)MainScene.Editor.FontHeight + 5;
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "BPM: " + conductor.Beatmap.BPM.ToString(), new Vector2(x, y), Color.White);
+            y += (int)MainScene.Editor.FontHeight + 5;
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "AR: " + conductor.Beatmap.AR.ToString(), new Vector2(x, y), Color.White);
+            y += (int)MainScene.Editor.FontHeight + 5;
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Global Offset: " + MainScene.Setting.GlobalOffset.ToString(), new Vector2(x, y), Color.White);
+            y += (int)MainScene.Editor.FontHeight + 5;
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Beatmap Offset: " + conductor.Beatmap.Offset.ToString(), new Vector2(x, y), Color.White);
+            y += (int)MainScene.Editor.FontHeight + 5;
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Hit Time: " + currentHitTime + "ms", new Vector2(x, y), Color.White);
+            y += (int)MainScene.Editor.FontHeight + 5;
+            MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font,
                 string.Format(
                     "Score: {0} | Exact: {1} | Excellent: {2} | Perfect: {3} | Good: {4} | Bad: {5} | Missed: {6}",
                     conductor.Score, conductor.Exact, conductor.Excellent, conductor.Perfect, conductor.Good, conductor.Bad, conductor.Missed),

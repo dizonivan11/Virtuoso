@@ -31,9 +31,9 @@ namespace FullKeyMania.Scenes {
             cms = Mouse.GetState();
 
             // Update Current Scene
-            Scene.Update(this, gameTime, pks, cks, pms, cms);
+            Scene.Update(gameTime, pks, cks, pms, cms);
 
-            // Store Input Previous States
+            // Store Previous Input States
             pks = cks;
             pms = cms;
         }
@@ -42,10 +42,15 @@ namespace FullKeyMania.Scenes {
             base.Draw();
 
             Editor.spriteBatch.GraphicsDevice.Clear(Color.DarkSlateBlue);
-            Editor.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, null);
+            Editor.spriteBatch.Begin(
+                SpriteSortMode.Deferred,
+                BlendState.NonPremultiplied,
+                SamplerState.AnisotropicClamp,
+                DepthStencilState.Default,
+                RasterizerState.CullCounterClockwise, null, null);
 
             // Render Current Scene
-            Scene.Draw(this);
+            Scene.Draw();
 
             Editor.spriteBatch.End();
         }

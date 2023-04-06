@@ -3,15 +3,19 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FullKeyMania.Scenes {
     public abstract class Scene {
+        public MainScene MainScene { get; internal set; }
+
+        public Scene(MainScene main) {
+            MainScene = main;
+        }
 
         internal abstract void Update(
-            MainScene main,
             GameTime gameTime,
             KeyboardState previousKeyState,
             KeyboardState currentKeyState,
             MouseState previousMouseState,
             MouseState currentMouseState);
 
-        internal abstract void Draw(MainScene main);
+        internal abstract void Draw();
     }
 }
