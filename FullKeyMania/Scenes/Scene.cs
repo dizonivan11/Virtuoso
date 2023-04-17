@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FullKeyMania.Components;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace FullKeyMania.Scenes {
@@ -9,13 +10,7 @@ namespace FullKeyMania.Scenes {
             MainScene = main;
         }
 
-        internal abstract void Update(
-            GameTime gameTime,
-            KeyboardState previousKeyState,
-            KeyboardState currentKeyState,
-            MouseState previousMouseState,
-            MouseState currentMouseState);
-
+        internal abstract void Update(GameTime gameTime, InputState input);
         internal abstract void Draw();
     }
 }

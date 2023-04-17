@@ -19,14 +19,9 @@ namespace FullKeyMania.Scenes {
             home_quit = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\home_quit.png");
         }
 
-        internal override void Update(
-            GameTime gameTime,
-            KeyboardState previousKeyState,
-            KeyboardState currentKeyState,
-            MouseState previousMouseState,
-            MouseState currentMouseState) {
+        internal override void Update(GameTime gameTime, InputState input) {
             
-            if (Input.LeftClicked(previousMouseState, currentMouseState)) {
+            if (Input.LeftClicked(input)) {
                 MainScene.ChangeScene(new GameScene(MainScene));
             }
         }

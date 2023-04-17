@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FullKeyMania.Components;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,7 @@ namespace FullKeyMania.Scenes {
 
         }
 
-        internal override void Update(
-            GameTime gameTime,
-            KeyboardState previousKeyState,
-            KeyboardState currentKeyState,
-            MouseState previousMouseState,
-            MouseState currentMouseState) {
+        internal override void Update(GameTime gameTime, InputState input) {
             
         }
 

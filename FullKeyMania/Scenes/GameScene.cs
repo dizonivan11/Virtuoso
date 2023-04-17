@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NAudio.Wave;
 using System;
 using System.IO;
 
@@ -41,12 +42,7 @@ namespace FullKeyMania.Scenes {
             MainScene.ChangeScene(new HomeScene(MainScene));
         }
 
-        internal override void Update(
-            GameTime gameTime,
-            KeyboardState previousKeyState,
-            KeyboardState currentKeyState,
-            MouseState previousMouseState,
-            MouseState currentMouseState) {
+        internal override void Update(GameTime gameTime, InputState input) {
 
             double arInSec = conductor.Beatmap.AR / 1000;
             int currentKeyIndex = 0;
@@ -61,7 +57,7 @@ namespace FullKeyMania.Scenes {
                             double hitTime = Math.Abs(Math.Abs(nextKeyTime - conductor.SongPosition) + (MainScene.Settings.GlobalOffset / 1000d));
 
                             Keys bind = Conductor.BINDS[currentKeyIndex];
-                            if (hitTime < Conductor.HW_MISS && Input.JustKeyPressed(previousKeyState, currentKeyState, bind)) {
+                            if (hitTime < Conductor.HW_MISS && Input.JustKeyPressed(input, bind)) {
                                 keyGraphicColors[currentKeyIndex] = pressedColor;
                                 conductor.KeyTimingLayer[currentKeyIndex].RemoveAt(0);
 
@@ -97,11 +93,15 @@ namespace FullKeyMania.Scenes {
                                     conductor.HitCount[5]++;
                                     conductor.Score += Conductor.HWS_MISS;
                                     conductor.KeyTimingLayer[currentKeyIndex].RemoveAt(0);
+
+                                    WaveOutEvent hitSound = new WaveOutEvent();
+                                    hitSound.Init(new AudioFileReader(MainScene.Settings.HitSoundPath));
+                                    hitSound.Play();
                                 }
                             }
                         }
 
-                        if (currentKeyState.IsKeyDown(Conductor.BINDS[currentKeyIndex])) {
+                        if (input.CurrentKeyboardState.IsKeyDown(Conductor.BINDS[currentKeyIndex])) {
                             keyGraphicColors[currentKeyIndex] = pressedColor;
                         } else {
                             keyGraphicColors[currentKeyIndex] = idleColor;
@@ -113,7 +113,7 @@ namespace FullKeyMania.Scenes {
             }
             conductor.Update(gameTime);
 
-            if (Input.KeyPressed(previousKeyState, currentKeyState, Keys.Escape)) {
+            if (Input.KeyPressed(input, Keys.Escape)) {
                 conductor.OutputDevice.Stop();
             }
         }

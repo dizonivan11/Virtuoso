@@ -8,56 +8,56 @@ namespace FullKeyMania.Components {
         // h = hold
         // - = no input
 
-        public static bool JustLeftClicked(MouseState previous, MouseState current) {
+        public static bool JustLeftClicked(InputState input) {
             // x hhhhhhhhhh r -------
-            return previous.LeftButton == ButtonState.Released && current.LeftButton == ButtonState.Pressed;
+            return input.PreviousMouseState.LeftButton == ButtonState.Released && input.CurrentMouseState.LeftButton == ButtonState.Pressed;
         }
-        public static bool HoldLeftClicked(MouseState previous, MouseState current) {
+        public static bool HoldLeftClicked(InputState input) {
             // p xxxxxxxxxx r -------
-            return previous.LeftButton == ButtonState.Pressed && current.LeftButton == ButtonState.Pressed;
+            return input.PreviousMouseState.LeftButton == ButtonState.Pressed && input.CurrentMouseState.LeftButton == ButtonState.Pressed;
         }
-        public static bool LeftClicked(MouseState previous, MouseState current) {
+        public static bool LeftClicked(InputState input) {
             // p hhhhhhhhhh x -------
-            return previous.LeftButton == ButtonState.Pressed && current.LeftButton == ButtonState.Released;
+            return input.PreviousMouseState.LeftButton == ButtonState.Pressed && input.CurrentMouseState.LeftButton == ButtonState.Released;
         }
 
-        public static bool JustRightClicked(MouseState previous, MouseState current) {
+        public static bool JustRightClicked(InputState input) {
             // x hhhhhhhhhh r -------
-            return previous.RightButton == ButtonState.Released && current.RightButton == ButtonState.Pressed;
+            return input.PreviousMouseState.RightButton == ButtonState.Released && input.CurrentMouseState.RightButton == ButtonState.Pressed;
         }
-        public static bool HoldRightClicked(MouseState previous, MouseState current) {
+        public static bool HoldRightClicked(InputState input) {
             // p xxxxxxxxxx r -------
-            return previous.RightButton == ButtonState.Pressed && current.RightButton == ButtonState.Pressed;
+            return input.PreviousMouseState.RightButton == ButtonState.Pressed && input.CurrentMouseState.RightButton == ButtonState.Pressed;
         }
-        public static bool RightClicked(MouseState previous, MouseState current) {
+        public static bool RightClicked(InputState input) {
             // p hhhhhhhhhh x -------
-            return previous.RightButton == ButtonState.Pressed && current.RightButton == ButtonState.Released;
+            return input.PreviousMouseState.RightButton == ButtonState.Pressed && input.CurrentMouseState.RightButton == ButtonState.Released;
         }
 
-        public static bool JustMiddleClicked(MouseState previous, MouseState current) {
+        public static bool JustMiddleClicked(InputState input) {
             // x hhhhhhhhhh r -------
-            return previous.MiddleButton == ButtonState.Released && current.MiddleButton == ButtonState.Pressed;
+            return input.PreviousMouseState.MiddleButton == ButtonState.Released && input.CurrentMouseState.MiddleButton == ButtonState.Pressed;
         }
-        public static bool HoldMiddleClicked(MouseState previous, MouseState current) {
+        public static bool HoldMiddleClicked(InputState input) {
             // p xxxxxxxxxx r -------
-            return previous.MiddleButton == ButtonState.Pressed && current.MiddleButton == ButtonState.Pressed;
+            return input.PreviousMouseState.MiddleButton == ButtonState.Pressed && input.CurrentMouseState.MiddleButton == ButtonState.Pressed;
         }
-        public static bool MiddleClicked(MouseState previous, MouseState current) {
+        public static bool MiddleClicked(InputState input) {
             // p hhhhhhhhhh x -------
-            return previous.MiddleButton == ButtonState.Pressed && current.MiddleButton == ButtonState.Released;
+            return input.PreviousMouseState.MiddleButton == ButtonState.Pressed && input.CurrentMouseState.MiddleButton == ButtonState.Released;
         }
 
-        public static bool JustKeyPressed(KeyboardState previous, KeyboardState current, Keys key) {
+        public static bool JustKeyPressed(InputState input, Keys key) {
             // x hhhhhhhhhh r -------
-            return previous.IsKeyUp(key) && current.IsKeyDown(key);
+            return input.PreviousKeyboardState.IsKeyUp(key) && input.CurrentKeyboardState.IsKeyDown(key);
         }
-        public static bool HoldKeyPressed(KeyboardState previous, KeyboardState current, Keys key) {
+        public static bool HoldKeyPressed(InputState input, Keys key) {
             // p xxxxxxxxxx r -------
-            return previous.IsKeyDown(key) && current.IsKeyDown(key);
+            return input.PreviousKeyboardState.IsKeyDown(key) && input.CurrentKeyboardState.IsKeyDown(key);
         }
-        public static bool KeyPressed(KeyboardState previous, KeyboardState current, Keys key) {
+        public static bool KeyPressed(InputState input, Keys key) {
             // p hhhhhhhhhh x -------
-            return previous.IsKeyDown(key) && current.IsKeyUp(key);
+            return input.PreviousKeyboardState.IsKeyDown(key) && input.CurrentKeyboardState.IsKeyUp(key);
         }
     }
 }

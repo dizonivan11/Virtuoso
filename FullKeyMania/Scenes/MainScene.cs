@@ -6,15 +6,17 @@ using MonoGame.Forms.Controls;
 
 namespace FullKeyMania.Scenes {
     public class MainScene : MonoGameControl {
-        KeyboardState pks, cks;
-        MouseState pms, cms;
+        InputState GameInput;
 
         public Settings Settings { get; private set; }
         public Scene Scene { get; private set; }
 
         protected override void Initialize() {
             base.Initialize();
+            GraphicsProfile = GraphicsProfile.HiDef;
+            Editor.ShowFPS = true;
 
+            GameInput = new InputState();
             Settings = new Settings(@"settings.ini");
             Scene = new HomeScene(this);
         }
@@ -27,15 +29,13 @@ namespace FullKeyMania.Scenes {
             base.Update(gameTime);
 
             // Store Current Input States
-            cks = Keyboard.GetState();
-            cms = Mouse.GetState();
+            GameInput.UpdateCurrentStates(Keyboard.GetState(), Mouse.GetState());
 
             // Update Current Scene
-            Scene.Update(gameTime, pks, cks, pms, cms);
+            Scene.Update(gameTime, GameInput);
 
             // Store Previous Input States
-            pks = cks;
-            pms = cms;
+            GameInput.UpdatePreviousStates();
         }
 
         protected override void Draw() {
