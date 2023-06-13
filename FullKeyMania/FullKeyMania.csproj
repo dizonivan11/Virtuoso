@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Components\Beatmap.cs" />
     <Compile Include="Components\Conductor.cs" />
+    <Compile Include="Components\GameObjects\Button.cs" />
     <Compile Include="Components\GameObjects\GameObject.cs" />
     <Compile Include="Components\Graphics.cs" />
     <Compile Include="Components\Input.cs" />
