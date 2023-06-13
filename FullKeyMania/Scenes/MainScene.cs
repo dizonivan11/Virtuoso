@@ -6,6 +6,9 @@ using MonoGame.Forms.Controls;
 
 namespace FullKeyMania.Scenes {
     public class MainScene : MonoGameControl {
+        public static readonly float REF_WIDTH_SCALE = 800;
+        public static readonly float REF_HEIGHT_SCALE = 600;
+
         InputState GameInput;
 
         public Settings Settings { get; private set; }
