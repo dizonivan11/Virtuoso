@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace FullKeyMania.Components {
     public class InputState {
@@ -6,6 +7,7 @@ namespace FullKeyMania.Components {
         public KeyboardState CurrentKeyboardState { get; private set; }
         public MouseState PreviousMouseState { get; private set; }
         public MouseState CurrentMouseState { get; private set; }
+        public Point MousePosition { get { return CurrentMouseState.Position; } }
 
         public void UpdateCurrentStates(KeyboardState cks, MouseState cms) {
             CurrentKeyboardState = cks;
