@@ -81,11 +81,16 @@ namespace FullKeyMania.Scenes {
                                 } else if (hitTime > Conductor.HW_GOOD && hitTime <= Conductor.HW_BAD) {
                                     conductor.HitCount[4]++;
                                     conductor.Score += Conductor.HWS_BAD;
-
+  
                                 } else if (hitTime > Conductor.HW_BAD) {
                                     conductor.HitCount[5]++;
                                     conductor.Score += Conductor.HWS_MISS;
                                 }
+
+                                WaveOutEvent hitSound = new WaveOutEvent();
+                                hitSound.Init(new AudioFileReader(MainScene.Settings.HitSoundPath));
+                                hitSound.Play();
+                                hitSound.PlaybackStopped += delegate { hitSound.Dispose(); };
                             } else {
                                 keyGraphicColors[currentKeyIndex] = idleColor;
 
@@ -93,10 +98,6 @@ namespace FullKeyMania.Scenes {
                                     conductor.HitCount[5]++;
                                     conductor.Score += Conductor.HWS_MISS;
                                     conductor.KeyTimingLayer[currentKeyIndex].RemoveAt(0);
-
-                                    WaveOutEvent hitSound = new WaveOutEvent();
-                                    hitSound.Init(new AudioFileReader(MainScene.Settings.HitSoundPath));
-                                    hitSound.Play();
                                 }
                             }
                         }
