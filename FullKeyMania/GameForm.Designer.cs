@@ -33,7 +33,7 @@
             this.sampleControl.Location = new System.Drawing.Point(0, 0);
             this.sampleControl.MouseHoverUpdatesOnly = false;
             this.sampleControl.Name = "sampleControl";
-            this.sampleControl.Size = new System.Drawing.Size(582, 353);
+            this.sampleControl.Size = new System.Drawing.Size(1600, 900);
             this.sampleControl.TabIndex = 0;
             this.sampleControl.Text = "Sample Control";
             // 
@@ -41,7 +41,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.ClientSize = new System.Drawing.Size(1600, 900);
             this.Controls.Add(this.sampleControl);
             this.Name = "GameForm";
             this.Text = "Virtuoso";
