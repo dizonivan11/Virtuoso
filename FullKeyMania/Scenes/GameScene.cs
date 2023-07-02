@@ -32,13 +32,13 @@ namespace FullKeyMania.Scenes {
             }
             approachCircle = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\approach.png");
 
-            Beatmap division = new Beatmap(@"Songs\Black Lotus Audio - Division\");
+            Beatmap division = new Beatmap(@"Songs\Sereno - World's End Waltz\");
             conductor = new Conductor(division);
             background = Graphics.GetTexture2DFromFile(main.GraphicsDevice, conductor.Beatmap.DIR + "background.jpg");
             conductor.OutputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
         }
 
-        private void OutputDevice_PlaybackStopped(object sender, NAudio.Wave.StoppedEventArgs e) {
+        private void OutputDevice_PlaybackStopped(object sender, StoppedEventArgs e) {
             MainScene.ChangeScene(new HomeScene(MainScene));
         }
 
