@@ -107,7 +107,7 @@ namespace FullKeyMania.Components {
         private void MapNotesToLayer() {
             for (int n = 0; n < Beatmap.Notes.Count; n++) {
                 Note note = Beatmap.Notes[n];
-                KeyTimingLayer[Array.IndexOf(BINDS, note.KeyAssigned)].Add(note.Time);
+                KeyTimingLayer[Array.IndexOf(BINDS, note.KeyAssigned)].Add(note.Time + (Beatmap.Offset * 0.001d));
             }
         }
     }
