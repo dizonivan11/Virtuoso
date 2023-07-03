@@ -90,8 +90,7 @@ namespace FullKeyMania.Scenes {
             MainScene.Editor.spriteBatch.Draw(background,
                 new Vector2(MainScene.Editor.graphics.Viewport.Width / 2, MainScene.Editor.graphics.Viewport.Height / 2),
                 new Rectangle(0, 0, background.Width, background.Height),
-                Color.FromNonPremultiplied(255, 255, 255, 128),
-                0f, new Vector2(background.Width / 2, background.Height / 2), 1f, SpriteEffects.None, 0f);
+                Color.White, 0f, new Vector2(background.Width / 2, background.Height / 2), 1f, SpriteEffects.None, 0f);
 
             // LOGO SECTION
             MainScene.Editor.spriteBatch.Draw(logo,

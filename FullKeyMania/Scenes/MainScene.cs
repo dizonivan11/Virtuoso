@@ -44,7 +44,7 @@ namespace FullKeyMania.Scenes {
         protected override void Draw() {
             base.Draw();
 
-            Editor.spriteBatch.GraphicsDevice.Clear(Color.DarkSlateBlue);
+            Editor.spriteBatch.GraphicsDevice.Clear(Color.Black);
             Editor.spriteBatch.Begin(
                 SpriteSortMode.Deferred,
                 BlendState.NonPremultiplied,
