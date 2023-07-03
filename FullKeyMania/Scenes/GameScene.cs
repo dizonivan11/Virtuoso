@@ -56,6 +56,19 @@ namespace FullKeyMania.Scenes {
                             double endOpacityTime = nextKeyTime + arInSec;
                             double hitTime = Math.Abs(Math.Abs(nextKeyTime - conductor.SongPosition) + (MainScene.Settings.GlobalOffset / 1000d));
 
+                            // Full Combo Bot
+                            if (hitTime < Conductor.HW_EXCELLENT && hitTime <= Conductor.HWS_EXACT) {
+                                conductor.KeyTimingLayer[currentKeyIndex].RemoveAt(0);
+
+                                conductor.HitCount[0]++;
+                                conductor.Score += Conductor.HWS_EXACT;
+
+                                WaveOutEvent hitSound = new WaveOutEvent();
+                                hitSound.Init(new AudioFileReader(MainScene.Settings.HitSoundPath));
+                                hitSound.Play();
+                                hitSound.PlaybackStopped += delegate { hitSound.Dispose(); };
+                            }
+
                             Keys bind = Conductor.BINDS[currentKeyIndex];
                             if (hitTime < Conductor.HW_MISS && Input.JustKeyPressed(input, bind)) {
                                 keyGraphicColors[currentKeyIndex] = pressedColor;
