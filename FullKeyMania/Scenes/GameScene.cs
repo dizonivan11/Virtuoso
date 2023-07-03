@@ -88,7 +88,7 @@ namespace FullKeyMania.Scenes {
                                     conductor.HitCount[1]++;
                                     conductor.CurrentCombo++;
                                     if (conductor.CurrentCombo > conductor.HighestCombo) conductor.HighestCombo++;
-                                    conductor.Score += Conductor.HWS_EXCELLENT + (conductor.CurrentCombo / 4);
+                                    conductor.Score += Conductor.HWS_EXCELLENT + (conductor.CurrentCombo / 2);
 
                                 } else if (hitTime > Conductor.HW_EXCELLENT && hitTime <= Conductor.HW_PERFECT) {
                                     conductor.HitCount[2]++;
@@ -100,7 +100,7 @@ namespace FullKeyMania.Scenes {
                                     conductor.HitCount[3]++;
                                     conductor.CurrentCombo++;
                                     if (conductor.CurrentCombo > conductor.HighestCombo) conductor.HighestCombo++;
-                                    conductor.Score += Conductor.HWS_GOOD + (conductor.CurrentCombo / 8);
+                                    conductor.Score += Conductor.HWS_GOOD + (conductor.CurrentCombo / 10);
 
                                 } else if (hitTime > Conductor.HW_GOOD && hitTime <= Conductor.HW_BAD) {
                                     conductor.HitCount[4]++;
