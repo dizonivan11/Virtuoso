@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using System;
 using System.IO;
@@ -61,7 +62,9 @@ namespace FullKeyMania.Scenes {
                                 conductor.KeyTimingLayer[currentKeyIndex].RemoveAt(0);
 
                                 conductor.HitCount[0]++;
-                                conductor.Score += Conductor.HWS_EXACT;
+                                conductor.CurrentCombo++;
+                                if (conductor.CurrentCombo > conductor.HighestCombo) conductor.HighestCombo++;
+                                conductor.Score += Conductor.HWS_EXACT + conductor.CurrentCombo;
 
                                 WaveOutEvent hitSound = new WaveOutEvent();
                                 hitSound.Init(new AudioFileReader(MainScene.Settings.HitSoundPath));
@@ -77,26 +80,36 @@ namespace FullKeyMania.Scenes {
                                 currentHitTime = (int)(hitTime * 1000d);
                                 if (hitTime <= Conductor.HW_EXACT) {
                                     conductor.HitCount[0]++;
-                                    conductor.Score += Conductor.HWS_EXACT;
+                                    conductor.CurrentCombo++;
+                                    if (conductor.CurrentCombo > conductor.HighestCombo) conductor.HighestCombo++;
+                                    conductor.Score += Conductor.HWS_EXACT + conductor.CurrentCombo;
 
                                 } else if (hitTime > Conductor.HW_EXACT && hitTime <= Conductor.HW_EXCELLENT) {
                                     conductor.HitCount[1]++;
-                                    conductor.Score += Conductor.HWS_EXCELLENT;
+                                    conductor.CurrentCombo++;
+                                    if (conductor.CurrentCombo > conductor.HighestCombo) conductor.HighestCombo++;
+                                    conductor.Score += Conductor.HWS_EXCELLENT + (conductor.CurrentCombo / 4);
 
                                 } else if (hitTime > Conductor.HW_EXCELLENT && hitTime <= Conductor.HW_PERFECT) {
                                     conductor.HitCount[2]++;
-                                    conductor.Score += Conductor.HWS_PERFECT;
+                                    conductor.CurrentCombo++;
+                                    if (conductor.CurrentCombo > conductor.HighestCombo) conductor.HighestCombo++;
+                                    conductor.Score += Conductor.HWS_PERFECT + (conductor.CurrentCombo / 6);
 
                                 } else if (hitTime > Conductor.HW_PERFECT && hitTime <= Conductor.HW_GOOD) {
                                     conductor.HitCount[3]++;
-                                    conductor.Score += Conductor.HWS_GOOD;
+                                    conductor.CurrentCombo++;
+                                    if (conductor.CurrentCombo > conductor.HighestCombo) conductor.HighestCombo++;
+                                    conductor.Score += Conductor.HWS_GOOD + (conductor.CurrentCombo / 8);
 
                                 } else if (hitTime > Conductor.HW_GOOD && hitTime <= Conductor.HW_BAD) {
                                     conductor.HitCount[4]++;
+                                    conductor.CurrentCombo = 0;
                                     conductor.Score += Conductor.HWS_BAD;
   
                                 } else if (hitTime > Conductor.HW_BAD) {
                                     conductor.HitCount[5]++;
+                                    conductor.CurrentCombo = 0;
                                     conductor.Score += Conductor.HWS_MISS;
                                 }
 
@@ -109,6 +122,7 @@ namespace FullKeyMania.Scenes {
 
                                 if (conductor.SongPosition >= endOpacityTime) {
                                     conductor.HitCount[5]++;
+                                    conductor.CurrentCombo = 0;
                                     conductor.Score += Conductor.HWS_MISS;
                                     conductor.KeyTimingLayer[currentKeyIndex].RemoveAt(0);
                                 }
@@ -203,31 +217,35 @@ namespace FullKeyMania.Scenes {
 
             x = 5;
             y = 5;
-            // Editor.spriteBatch.DrawString(Editor.Font, "Game Time: " + conductor.GameTime.ToString(), new Vector2(x, y), Color.White);
-            // y += (int)main.Editor.FontHeight + 5;
-            // Editor.spriteBatch.DrawString(Editor.Font, "Current Time: " + conductor.CurrentTime.ToString(), new Vector2(x, y), Color.White);
-            // y += (int)main.Editor.FontHeight + 5;
-            // Editor.spriteBatch.DrawString(Editor.Font, "Time Started: " + conductor.TimeStarted.ToString(), new Vector2(x, y), Color.White);
-            // y += (int)main.Editor.FontHeight + 5;
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Song Position:" + conductor.SongPosition.ToString(), new Vector2(x, y), Color.White);
-            y += (int)MainScene.Editor.FontHeight + 5;
+            y = UINewLine(y);
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Current Beat:" + conductor.CurrentBeat.ToString(), new Vector2(x, y), Color.White);
-            y += (int)MainScene.Editor.FontHeight + 5;
+            y = UINewLine(y);
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "BPM: " + conductor.Beatmap.BPM.ToString(), new Vector2(x, y), Color.White);
-            y += (int)MainScene.Editor.FontHeight + 5;
+            y = UINewLine(y);
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "AR: " + conductor.Beatmap.AR.ToString(), new Vector2(x, y), Color.White);
-            y += (int)MainScene.Editor.FontHeight + 5;
+            y = UINewLine(y);
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Global Offset: " + MainScene.Settings.GlobalOffset.ToString(), new Vector2(x, y), Color.White);
-            y += (int)MainScene.Editor.FontHeight + 5;
+            y = UINewLine(y);
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Beatmap Offset: " + conductor.Beatmap.Offset.ToString(), new Vector2(x, y), Color.White);
-            y += (int)MainScene.Editor.FontHeight + 5;
+            y = UINewLine(y);
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font, "Hit Time: " + currentHitTime + "ms", new Vector2(x, y), Color.White);
-            y += (int)MainScene.Editor.FontHeight + 5;
+            y = UINewLine(y);
             MainScene.Editor.spriteBatch.DrawString(MainScene.Editor.Font,
                 string.Format(
-                    "Score: {0} | Exact: {1} | Excellent: {2} | Perfect: {3} | Good: {4} | Bad: {5} | Missed: {6}",
-                    conductor.Score, conductor.Exact, conductor.Excellent, conductor.Perfect, conductor.Good, conductor.Bad, conductor.Missed),
+                    "Score: {0} | Current Combo: {1} | Highest Combo: {2} | Exact: {3} | Excellent: {4} | Perfect: {5} | Good: {6} | Bad: {7} | Missed: {8}",
+                    conductor.Score,
+                    conductor.CurrentCombo,
+                    conductor.HighestCombo,
+                    conductor.Exact,
+                    conductor.Excellent,
+                    conductor.Perfect,
+                    conductor.Good,
+                    conductor.Bad,
+                    conductor.Missed),
                 new Vector2(x, y), Color.White);
         }
+
+        int UINewLine(int y) { return y + (int)MainScene.Editor.FontHeight + 5; }
     }
 }

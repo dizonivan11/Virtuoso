@@ -35,6 +35,8 @@ namespace FullKeyMania.Components {
 
         // Session Records
         public int Score { get; internal set; }
+        public int CurrentCombo { get; internal set; }
+        public int HighestCombo { get; internal set; }
         public int[] HitCount = new int[] {
             0, // EXACT
             0, // EXCELLENT
