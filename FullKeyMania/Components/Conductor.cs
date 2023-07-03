@@ -95,10 +95,10 @@ namespace FullKeyMania.Components {
             if (!IsDone) {
                 if (!IsPlaying) {
                     if (CurrentTime >= START_OFFSET) Start();
-                    SongPosition = (CurrentTime - START_OFFSET) / 1000;
+                    SongPosition = (CurrentTime - START_OFFSET) / 1000d;
                 } else {
                     // lastBeat = (int)CurrentBeat;
-                    CurrentBeat = SongPosition / secondsPerBeat;
+                    CurrentBeat = (SongPosition - (Beatmap.Offset / 1000d)) / secondsPerBeat;
                     SongPosition = OutputDevice.GetPosition() * (1d / OutputDevice.OutputWaveFormat.AverageBytesPerSecond);
                 }
             }
@@ -107,7 +107,7 @@ namespace FullKeyMania.Components {
         private void MapNotesToLayer() {
             for (int n = 0; n < Beatmap.Notes.Count; n++) {
                 Note note = Beatmap.Notes[n];
-                KeyTimingLayer[Array.IndexOf(BINDS, note.KeyAssigned)].Add(note.Time + (Beatmap.Offset * 0.001d));
+                KeyTimingLayer[Array.IndexOf(BINDS, note.KeyAssigned)].Add(note.Time + (Beatmap.Offset / 1000d));
             }
         }
     }
