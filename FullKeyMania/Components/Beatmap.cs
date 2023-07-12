@@ -52,75 +52,74 @@ namespace FullKeyMania.Components {
             int offset;
             switch (note.NoteName) {
                 case NoteName.C:
-                    offset = 3; break;
-                case NoteName.CSharp:
-                    offset = 4; break;
-                case NoteName.D:
-                    offset = 5; break;
-                case NoteName.DSharp:
-                    offset = 6; break;
-                case NoteName.E:
-                    offset = 7; break;
-                case NoteName.F:
-                    offset = 8; break;
-                case NoteName.FSharp:
-                    offset = 9; break;
-                case NoteName.G:
-                    offset = 10; break;
-                case NoteName.GSharp:
-                    offset = 11; break;
-                case NoteName.A:
                     offset = 0; break;
-                case NoteName.ASharp:
+                case NoteName.CSharp:
                     offset = 1; break;
-                case NoteName.B:
+                case NoteName.D:
                     offset = 2; break;
+                case NoteName.DSharp:
+                    offset = 3; break;
+                case NoteName.E:
+                    offset = 4; break;
+                case NoteName.F:
+                    offset = 5; break;
+                case NoteName.FSharp:
+                    offset = 6; break;
+                case NoteName.G:
+                    offset = 7; break;
+                case NoteName.GSharp:
+                    offset = 8; break;
+                case NoteName.A:
+                    offset = 9; break;
+                case NoteName.ASharp:
+                    offset = 10; break;
+                case NoteName.B:
+                    offset = 11; break;
                 default:
                     offset = 0; break;
             }
 
-            int noteValue = note.Octave * 12 + offset - 3;
+            int noteValue = offset + ((note.Octave - 1) * 12) - 12;
 
             switch (noteValue) {
-                case 0: case 16: return Keys.Q;
-                case 1: case 17: return Keys.W;
-                case 2: case 18: return Keys.E;
-                case 3: case 19: return Keys.R;
-                case 4: case 20: return Keys.T;
-                case 5: case 21: return Keys.Y;
+                case -3: case 13: case 29: return Keys.Q;
+                case -2: case 14: case 30: return Keys.W;
+                case -1: case 15: case 31: return Keys.E;
+                case 0: case 16: case 32: return Keys.R;
+                case 1: case 17: case 33: return Keys.T;
+                case 2: case 18: case 34: return Keys.Y;
 
-                case 32: case 49: return Keys.U;
-                case 33: case 50: return Keys.I;
-                case 34: case 51: return Keys.O;
-                case 35: case 52: return Keys.P;
-                case 36: case 53: return Keys.OemOpenBrackets;
-                case 37: case 54: case 66: return Keys.OemCloseBrackets;
+                case 3: case 19: case 35: return Keys.A;
+                case 4: case 20: case 36: return Keys.S;
+                case 5: case 21: case 37: return Keys.D;
+                case 6: case 22: case 38: return Keys.F;
+                case 7: case 23: case 39: return Keys.G;
 
-                case 6: case 22: case 67: return Keys.A;
-                case 7: case 23: case 68: return Keys.S;
-                case 8: case 24: case 69: return Keys.D;
-                case 9: case 25: case 70: return Keys.F;
-                case 10: case 26: case 71: return Keys.G;
+                case 8: case 24: case 40: return Keys.Z;
+                case 9: case 25: return Keys.X;
+                case 10: case 26: return Keys.C;
+                case 11: case 27: return Keys.V;
+                case 12: case 28: return Keys.B;
 
-                case 38: case 55: case 72: return Keys.H;
+                case 41: case 58: case 75: return Keys.U;
+                case 42: case 59: case 76: return Keys.I;
+                case 43: case 60: case 77: return Keys.O;
+                case 44: case 61: case 78: return Keys.P;
+                case 45: case 62: case 79: return Keys.OemOpenBrackets;
+                case 46: case 63: case 80: return Keys.OemCloseBrackets;
 
-                case 39: case 56: case 73: return Keys.J;
-                case 40: case 57: case 74: return Keys.K;
-                case 41: case 58: case 75: return Keys.L;
-                case 42: case 59: case 76: return Keys.OemSemicolon;
-                case 43: case 60: case 77: return Keys.OemQuotes;
+                case 47: case 64: case 81: return Keys.H;
+                case 48: case 65: case 82: return Keys.J;
+                case 49: case 66: case 83: return Keys.K;
+                case 50: case 67: case 84: return Keys.L;
+                case 51: case 68: return Keys.OemSemicolon;
+                case 52: case 69: return Keys.OemQuotes;
 
-                case 11: case 27: case 78: return Keys.Z;
-                case 12: case 28: case 79: return Keys.X;
-                case 13: case 29: case 80: return Keys.C;
-                case 14: case 30: case 81: return Keys.V;
-                case 15: case 31: case 82: return Keys.B;
-
-                case 44: case 61: case 83: return Keys.N;
-                case 45: case 62: case 84: return Keys.M;
-                case 46: case 63: case 85: return Keys.OemComma;
-                case 47: case 64: case 86: return Keys.OemPeriod;
-                case 48: case 65: case 87: return Keys.OemQuestion;
+                case 53: case 70: return Keys.N;
+                case 54: case 71: return Keys.M;
+                case 55: case 72: return Keys.OemComma;
+                case 56: case 73: return Keys.OemPeriod;
+                case 57: case 74: return Keys.OemQuestion;
 
                 default: return Keys.Q;
             }
