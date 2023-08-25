@@ -33,6 +33,7 @@ namespace FullKeyMania.Scenes {
             }
             approachCircle = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\approach.png");
 
+            // Beatmap division = new Beatmap(@"Songs\Black Lotus Audio - Division\");
             Beatmap division = new Beatmap(@"Songs\Sereno - World's End Waltz\");
             conductor = new Conductor(division);
             background = Graphics.GetTexture2DFromFile(main.GraphicsDevice, conductor.Beatmap.DIR + "background.jpg");
@@ -45,7 +46,7 @@ namespace FullKeyMania.Scenes {
 
         internal override void Update(GameTime gameTime, InputState input) {
 
-            double arInSec = conductor.Beatmap.AR / 1000;
+            double arInSec = conductor.Beatmap.AR / 1000d;
             int currentKeyIndex = 0;
             for (int c = 0; c < layerKeyCounts.Length; c++) {
                 int keyCount = layerKeyCounts[c];
