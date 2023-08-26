@@ -9,7 +9,7 @@ using System.IO;
 
 namespace FullKeyMania.Scenes {
     public class GameScene : Scene {
-        Conductor conductor;
+        readonly Conductor conductor;
         int currentHitTime;
 
         Texture2D[] keyGraphics = new Texture2D[33];
@@ -20,7 +20,7 @@ namespace FullKeyMania.Scenes {
         int keyPadding = 12;
         int[] layerKeyCounts = new int[] { 12, 11, 10 };
 
-        public GameScene(MainScene main) : base(main) {
+        public GameScene(MainScene main, Beatmap beatmap) : base(main) {
             idleColor = Color.FromNonPremultiplied(255, 255, 255, (int)(main.Settings.NoteOpacity * 255d));
             pressedColor = Color.White;
 
@@ -33,9 +33,7 @@ namespace FullKeyMania.Scenes {
             }
             approachCircle = Graphics.GetTexture2DFromFile(main.GraphicsDevice, @"Skins\" + main.Settings.SelectedSkin + @"\approach.png");
 
-            // Beatmap division = new Beatmap(@"Songs\Black Lotus Audio - Division\");
-            Beatmap division = new Beatmap(@"Songs\Sereno - World's End Waltz\");
-            conductor = new Conductor(division);
+            conductor = new Conductor(beatmap);
             background = Graphics.GetTexture2DFromFile(main.GraphicsDevice, conductor.Beatmap.DIR + "background.jpg");
             conductor.OutputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
         }
