@@ -11,11 +11,15 @@ using NAudio.Wave;
 
 namespace FullKeyMania.Components {
     public class Beatmap {
-        public static readonly string MUSIC_FILE_EXTENSION = ".mp3";
-        public static readonly string MIDI_FILE_EXTENSION = ".mid";
+        public const string MUSIC_FILE_NAME = "audio";
+        public const string MUSIC_FILE_EXTENSION = ".mp3";
+        public const string MIDI_FILE_NAME = "notes";
+        public const string MIDI_FILE_EXTENSION = ".mid";
 
         public string DIR { get; private set; }
         public string Name { get; private set; }
+        public string Author { get; private set; }
+        public string Mapper { get; private set; }
         public int BPM { get; private set; } // Beats per Minute
         public int BeatValue { get; private set; }
         public int BeatCount { get; private set; }
@@ -27,11 +31,13 @@ namespace FullKeyMania.Components {
 
         public Beatmap(string beatmapPath) {
             DIR = beatmapPath;
-            Name = Path.GetFileName(Path.GetDirectoryName(beatmapPath));
-            Song = new AudioFileReader(beatmapPath + @"\" + Name + MUSIC_FILE_EXTENSION);
+            Song = new AudioFileReader(beatmapPath + @"\" + MUSIC_FILE_NAME + MUSIC_FILE_EXTENSION);
             Notes = new List<Note>();
 
             SettingsCollection settings = Settings.Parse(beatmapPath + @"\settings.ini");
+            Name = settings["name"];
+            Author = settings["author"];
+            Mapper = settings["mapper"];
             BPM = int.Parse(settings["bpm"]);
             BeatValue = int.Parse(settings["beatvalue"]);
             BeatCount = int.Parse(settings["beatcount"]);
@@ -39,7 +45,7 @@ namespace FullKeyMania.Components {
             Offset = double.Parse(settings["offset"]);
 
             // Note timing processing
-            MidiFile midiFile = MidiFile.Read(beatmapPath + @"\" + Name + MIDI_FILE_EXTENSION);
+            MidiFile midiFile = MidiFile.Read(beatmapPath + @"\" + MIDI_FILE_NAME + MIDI_FILE_EXTENSION);
             var notes = midiFile.GetNotes().ToArray();
             for (int n = 0; n < notes.Length; n++) {
                 MNote note = notes[n];
