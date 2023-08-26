@@ -67,7 +67,7 @@ namespace FullKeyMania.Scenes {
 
         private void StartSoloPlay(MouseButton mouseButton) {
             if (mouseButton == MouseButton.Left)
-                MainScene.ChangeScene(new GameScene(MainScene));
+                MainScene.ChangeScene(new SelectScene(MainScene));
         }
 
         private void StartMultiPlay(MouseButton mouseButton) {
